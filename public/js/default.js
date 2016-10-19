@@ -1,4 +1,3 @@
-// jQuery equivalent $(document).ready() ..
 document.addEventListener("DOMContentLoaded", function(event) {
 
   document.getElementById("play-btn").addEventListener("click", getreq);
@@ -17,11 +16,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   function getreq() {
     var win = document.getElementById("win-text");
-	var bonus = document.getElementById("bonus-text");
+    var bonus = document.getElementById("bonus-text");
     var space = document.getElementById("symbol-space");
     var image = document.getElementsByClassName("symbol-img");
 
-	// Remove all elements when play is triggered
+    // Remove all elements when play is triggered
     while (image.length > 0) {
       image[0].parentNode.removeChild(image[0]);
     }
@@ -30,13 +29,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     request.onreadystatechange = function() {
       if (request.readyState === 4) {
         if (request.status === 200) {
-			
-		  console.log('Status: Ok');
-		  
-		  bonus.innerHTML = '';
-			
-		  var arr = JSON.parse(request.responseText);
-		  
+
+          console.log('Status: Ok');
+
+          bonus.innerHTML = '';
+
+          var arr = JSON.parse(request.responseText);
+
           for (var i of arr) {
             if (i == 1) {
               var im1 = document.createElement("img");
@@ -68,29 +67,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
               im5.className = 'symbol-img';
               space.appendChild(im5);
             }
-			// Is all values unique?
+            // Is all values unique?
             if (isArrayUnique(arr)) {
               win.innerHTML = 'No Win';
-            } 
-			// Is all values the same?
-			else if (arr.isAllValuesEqual()) {
-              win.innerHTML = '<strong style="color: #00e600">Big Win</strong>';
-				// Bonus triggered
-				if (i == 9) {
-				bonus.innerHTML = '<strong style="color: #00e600"> ~ B O N U S ~ </strong>';
-				}
             }
-			// Is two values equal with one differing?
-			else {
+            // Is all values the same?
+            else if (arr.isAllValuesEqual()) {
+              win.innerHTML = '<strong style="color: #00e600">Big Win</strong>';
+              // Bonus triggered
+              if (i == 9) {
+                bonus.innerHTML = '<strong style="color: #00e600"> ~ B O N U S ~ </strong>';
+              }
+            }
+            // Is two values equal with one differing?
+            else {
               win.innerHTML = 'Small Win';
-				// Bonus triggered
-				if (i == 9) {
-				  bonus.innerHTML = '<strong style="color: #00e600"> ~ B O N U S ~ </strong>';
-				}
+              // Bonus triggered
+              if (i == 9) {
+                bonus.innerHTML = '<strong style="color: #00e600"> ~ B O N U S ~ </strong>';
+              }
             }
           }
         } else {
-			console.log('Status: Error');
+          console.log('Status: Error');
         }
       }
     };
